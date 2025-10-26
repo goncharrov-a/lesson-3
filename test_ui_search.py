@@ -13,6 +13,7 @@ load_dotenv()
 selenium_url = os.getenv("SELENIUM_BASE_URL")
 google_url = os.getenv("GOOGLE_BASE_URL")
 duck_url = os.getenv("DUCKDUCKGO_BASE_URL")
+github_url = os.getenv("GITHUB_BASE_URL")
 
 
 @pytest.mark.ui
@@ -25,6 +26,21 @@ def test_selenium_web(driver):
     with allure.step("Проверить, что открыта правильная страница"):
         assert driver.current_url == selenium_url
         assert 'Selenium' in driver.title
+
+
+@pytest.mark.ui
+@allure.title("Открытие сайта Github")
+@allure.description("Проверка, что сайт github открывается и содержит корректный заголовок.")
+def test_github_open(driver):
+    with allure.step('Открыть сайт Github'):
+        driver.get(github_url)
+
+    with allure.step("Проверить, что открыта правильная страница"):
+        assert driver.current_url == github_url
+        assert (
+            'GitHub · Build and ship software on a single, collaborative platform · GitHub'
+            in driver.title
+        )
 
 
 @pytest.mark.ui
